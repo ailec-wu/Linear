@@ -30,7 +30,9 @@ def m_multiply(a, b):
     if len(a[0]) != len(b):
         return False
     else:
-        return [[sum(row(a,i)[_]*col(b,j)[_] for _ in range(len(a))) for j in range(len(b[0]))] for i in range(len(a))]
+        return [
+            [sum(row(a,i)[_]*col(b,j)[_] for _ in range(len(a[0]))) for j in range(len(b[0]))] for i in range(len(a))
+            ]
 
 
 # matrix exponentiation
@@ -101,6 +103,8 @@ def rref(matrix):
 
 # determinant
 def det(matrix):
+    if len(matrix)!=len(matrix[0]):
+        return False
     det_scale = 1
     deter = 1
     for row_number in range(len(matrix)):
@@ -131,10 +135,13 @@ def inverse(matrix):
     return temp_matrix
 #print(a)
 #print(col(a,1))
-#print(m_multiply(b,a))
+
+
+invertible_square_matrix_a=[[1,3,5],[7,11,13],[17,19,23]]
+invertible_square_matrix_b=[[1,-3,5],[2,-1,8],[4,2,9]]
+rectangular_matrix_4_3_f=[[-8,-6,5],[2,3,6],[-10,8,4],[8,4,-5]]
+
+print(m_multiply(rectangular_matrix_4_3_f,invertible_square_matrix_a))
 #add_multiple(a,0,2,1)
 #multiply_const(a,0,5)
 #print(m_power(b,4))
-print(inverse(c))
-for i in inverse(c):
-    print(i)
