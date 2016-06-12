@@ -33,9 +33,19 @@ class TestOperations(unittest.TestCase):
     def setUp(self):
         pass
 
+    def test_row(self):
+        self.assertEqual(row(TestOperations.invertible_square_matrix_a,1),[7,11,13])
+
+    def test_col(self):
+        self.assertEqual(col(TestOperations.invertible_square_matrix_a,1),[3,11,19])
+
     def test_transpose(self):
         self.assertEqual(transpose(TestOperations.invertible_square_matrix_a),[[1,7,17],[3,11,19],[5,13,23]])
         self.assertEqual(transpose(TestOperations.symmetric_matrix_d),TestOperations.symmetric_matrix_d)
+
+    def test_identity(self):
+        self.assertEqual(identity(1),[[1]])
+        self.assertEqual(identity(3),[[1,0,0],[0,1,0],[0,0,1]])
 
     def test_m_multiply(self):
         self.assertEqual(m_multiply(
@@ -47,6 +57,18 @@ class TestOperations(unittest.TestCase):
         self.assertEqual(m_multiply(
             TestOperations.rectangular_matrix_4_3_f, TestOperations.invertible_square_matrix_a
             ),[[35,5,-3],[125,153,187],[114,134,146],[-49,-27,-23]])
+
+    def test_m_power(self):
+        self.assertEqual(m_power(TestOperations.invertible_square_matrix_a,3),[[3727,4783,5895],[11137,14257,17553],[20057,25649,31569]])
+        self.assertEqual(m_power(TestOperations.invertible_square_matrix_a,0),[[1,0,0],[0,1,0],[0,0,1]])
+        self.assertAlmostEqual(m_power(TestOperations.invertible_square_matrix_a,-2),[[205/588,-41/147,53/588],[-379/588,509/588,-53/147],[89/294,-103/196,139/588]])
+
+    def test_swap(self):
+        matrix_a=list(TestOperations.invertible_square_matrix_a)
+        swap(matrix_a,1,2)
+        self.assertEqual(matrix_a,[[1,3,5],[17,19,23],[7,11,13]])
+
+    # def test_add_multiple(self):
 
 if __name__ == '__main__':
     unittest.main()

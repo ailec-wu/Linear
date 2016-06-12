@@ -4,8 +4,6 @@ c=[[1,2,3],[4,5,6],[7,8,9]]
 d=[[0,6],[7,8]]
 e=[[1,2,3,4],[5,6,7,8],[10,10,11,12],[14,14,15,16]]
 f=[[1, 2, 3, 1, 0, 0], [4, 5, 6, 0, 1, 0], [7, 8, 9, 0, 0, 1]]
-a_t=[]
-# a_t=[[element for element in row] for row in a]
 
 
 # transpose of a matrix
@@ -37,12 +35,20 @@ def m_multiply(a, b):
 
 # matrix exponentiation
 def m_power(matrix, n):
-    if len(matrix) != len(matrix[0]):
-        return False
-    if n == 0:
-        return identity(len(matrix))
+    if n >= 0:
+        if len(matrix) != len(matrix[0]):
+            return False
+        if n == 0:
+            return identity(len(matrix))
+        else:
+            return m_multiply(matrix, m_power(matrix, n-1))
     else:
-        return m_multiply(matrix, m_power(matrix, n-1))
+        if len(matrix) != len(matrix[0]):
+            return False
+        if n == 0:
+            return identity(len(matrix))
+        else:
+            return m_multiply(matrix, m_power(inverse(matrix), n+1))
 
 
 # elementary operations
@@ -98,7 +104,7 @@ def rref(matrix):
             for lower_row_nums in range(row_number+1, len(matrix)): # iterate columns below
                 if matrix[row_number][row_number] != 0:
                     add_multiple(matrix,row_number, -matrix[lower_row_nums][row_number],lower_row_nums)
-        print(matrix)
+        #print(matrix)
     return matrix
 
 # determinant
@@ -132,16 +138,17 @@ def det(matrix):
 def inverse(matrix):
     temp_matrix = [matrix[i]+identity(len(matrix))[i] for i in range(len(matrix))]
     rref(temp_matrix)
+    temp_matrix = [temp_matrix[i][len(temp_matrix):][:len(temp_matrix)] for i in range(len(temp_matrix))] #this line of code needs to be fixed for elegance sigh
     return temp_matrix
 #print(a)
 #print(col(a,1))
 
 
-invertible_square_matrix_a=[[1,3,5],[7,11,13],[17,19,23]]
+invertible_square_matrix_a=[[1,3,5,1,0,0],[7,11,13,0,1,0],[17,19,23,0,0,1]]
 invertible_square_matrix_b=[[1,-3,5],[2,-1,8],[4,2,9]]
 rectangular_matrix_4_3_f=[[-8,-6,5],[2,3,6],[-10,8,4],[8,4,-5]]
 
-print(m_multiply(rectangular_matrix_4_3_f,invertible_square_matrix_a))
+#print(inverse(invertible_square_matrix_a))
 #add_multiple(a,0,2,1)
 #multiply_const(a,0,5)
 #print(m_power(b,4))
